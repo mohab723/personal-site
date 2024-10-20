@@ -1,0 +1,148 @@
+<!doctype>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+<body>
+		<a  id="me" href="identification.html">
+			<div class="card">
+				<img src="./Mohab  smiling in a formal outfit_coder.png" alt="Mohab smiling in a formal outfit">
+				<div class="identification">
+					<h2 id="mohab">
+						Mohab Hassan 
+					</h2>
+					<h3>
+						A strong incomer in the fields of development
+					</h3>
+					<h2>
+						contact us 	01******783
+					</h2>
+				</div>
+			</div>	
+		</a>
+			<div class="layout">
+					<h1>
+						Hi there! Welcome to my site.
+					</h1> 
+					<input id="massage-inp" type="text" placeholder="                    		How do you wish me to help you?"> 
+					<button id="send-btn">
+						Send 
+					</button>
+					<p id="error"></p>	
+
+					<p>
+							To know more about my projects and qualifications <a href="qualifications.html"> click here</a> 
+					</p>
+			</div>
+			<div id="history-cont">
+				<h2 id="head">History</h2>
+						<button id="delete"> Delete all </button>
+						<ul id="history-ul">
+
+						</ul>
+	
+			</div>
+	<script>
+		const storedHistory = JSON.parse(localStorage.getItem("question"))
+		const select= document.getElementsByClassName("fake-btn")
+		const error =document.getElementById("error")
+		const deleteBtn =document.getElementById("delete")
+		const sendBtn = document.getElementById("send-btn")
+ const massageInp = document.getElementById("massage-inp")
+const historyUl = document.getElementById("history-ul")
+let state = false
+let person =""
+let task=""
+
+let question = []
+
+
+if(storedHistory){
+	question = storedHistory
+	renderHistory()
+
+}
+
+
+sendBtn.addEventListener("click", function(){
+        if (state===false&&massageInp.value){
+        error.textContent = ""
+			massage()
+        }
+        else if (state===true&&massageInp.value) {
+			error.textContent = ""
+		
+    name()
+        }
+		else  {
+			error.textContent = " you can't send an empty massage"
+		}
+})
+
+function massage(){
+	let submitBtn = 
+  state = true
+  sendBtn.textContent= "Submit"
+  task = massageInp.value
+
+  massageInp.value=""
+  massageInp.placeholder='					   	Enter your name'
+  
+}
+function name(){
+		sendBtn.textContent = "Send"
+		state= false
+		person = massageInp.value
+		question.push(`${task} 
+		
+				" ${person} "`)
+		massageInp.value=""
+		massageInp.placeholder='				    	 Any thing else?'
+		renderHistory()
+		localStorage.setItem("question", JSON.stringify(question))
+	}
+
+function renderHistory(){
+	let code = ""
+for (let i=0; i<question.length; i++){
+code +=`<li id="li${i}" class="ul-history">
+				<p class="sent">
+					${question[i]}
+				</p>
+				<button  id="${i}" class="fake-btn" onclick="check(${i})">
+					❌
+				</button>
+				
+		</li>
+				`
+		}
+		historyUl.innerHTML = code
+
+		
+}
+deleteBtn.addEventListener("click", function(){
+	question =[]
+	localStorage.clear()
+	renderHistory()
+	
+})
+
+function check(string){
+question.splice(string, 1)
+localStorage.setItem("question", JSON.stringify(question))
+renderHistory()
+
+}
+
+
+	//if(check.value==="✔"){
+	//	check.value=""
+	//}
+	//else{
+		
+	//}
+
+
+//styling
+	</script>
+</body>
+</html>
